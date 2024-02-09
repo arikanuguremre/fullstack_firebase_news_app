@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "724985400259",
+    "project_id": "flutter-full-stack-news-app",
+    "storage_bucket": "flutter-full-stack-news-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724985400259:android:af30851ff1a045a8908b76",
+        "android_client_info": {
+          "package_name": "com.example.fullstack_firebase_news_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNGxrA58DSj7zJ6hzCskSf2gX35x5-IXY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

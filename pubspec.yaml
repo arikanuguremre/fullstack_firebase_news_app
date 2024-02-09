@@ -38,6 +38,7 @@ dependencies:
   #core
   flutter_riverpod: ^2.4.10
   kartal: ^2.8.0
+  firebase_core: ^2.25.4
   
   
 
