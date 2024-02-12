@@ -31,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
       ).get();
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.blue,),
       body:FutureBuilder(
         future: response,
         builder:(
