@@ -11,7 +11,8 @@ import 'package:fullstack_firebase_news_app/product/widget/text/wavy_text.dart';
 import 'package:kartal/kartal.dart';
 
 class SplashView extends ConsumerStatefulWidget {
-  const SplashView({super.key});
+  final Widget? child;
+  const SplashView({this.child, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashViewState();
@@ -25,9 +26,10 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 5), () {
+      ref.read(splashProvider.notifier).checkApplicationVersion(''.version);
+    });
     super.initState();
-    sleep(Duration(seconds: 3));
-    ref.read(splashProvider.notifier).checkApplicationVersion(''.version);
   }
 
   @override
@@ -51,7 +53,7 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
         if (next.isRedirectHome != null) {
           if (next.isRedirectHome!) {
-            context.navigateToPage(const HomeView());
+            context.navigateToPage(widget.child!);
           } else {
             //else
           }

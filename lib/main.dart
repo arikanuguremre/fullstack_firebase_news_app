@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fullstack_firebase_news_app/feature/home/home_view.dart';
+import 'package:fullstack_firebase_news_app/feature/Auth/login_page.dart';
+
 import 'package:fullstack_firebase_news_app/feature/splash/splash_view.dart';
 import 'package:fullstack_firebase_news_app/product/constants/string_constants.dart';
 import 'package:fullstack_firebase_news_app/product/initialize/application_start.dart';
@@ -16,8 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: StringConstants.appName,
-      home: SplashView(),
+      home: SplashView(
+        child: LoginPage(),
+      ),
     );
   }
 }
