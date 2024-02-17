@@ -70,7 +70,7 @@ class _LoginPagePageState extends State<LoginPage> {
                 height: 30,
               ),
               GestureDetector(
-                onTap: _loginwithEmailandPassword,
+                onTap: () => _loginwithEmailandPassword(context),
                 child: Container(
                   width: double.infinity,
                   height: 45,
@@ -104,8 +104,24 @@ class _LoginPagePageState extends State<LoginPage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => SignUpPage(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const SignUpPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(1.0, 0.0);
+                            const end = Offset.zero;
+                            const curve = Curves.elasticOut;
+
+                            final tween = Tween(begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
                         ),
                       );
                     },
@@ -154,7 +170,30 @@ class _LoginPagePageState extends State<LoginPage> {
       );
   }
 
-  Future<void> _loginwithEmailandPassword() async {
+  void _navigateToHome(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const HomeView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1, 0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          final tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _loginwithEmailandPassword(BuildContext context) async {
     String email = _emailController.text;
     String password = _passwordController.text;
 
@@ -163,12 +202,7 @@ class _LoginPagePageState extends State<LoginPage> {
       showSuccesSnacBar('Succesfully Login!');
 
       print('Successfully Login!!!');
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeView(),
-        ),
-      );
+      _navigateToHome(context);
     } else {
       showWrongCredentialSnacBar('Wrong Password or Email');
     }

@@ -1,7 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fullstack_firebase_news_app/product/constants/color_constants.dart';
-import 'package:fullstack_firebase_news_app/product/constants/string_constants.dart';
 import 'package:kartal/kartal.dart';
 
 class WavyBoldText extends StatelessWidget {

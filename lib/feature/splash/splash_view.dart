@@ -53,7 +53,28 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
         if (next.isRedirectHome != null) {
           if (next.isRedirectHome!) {
-            context.navigateToPage(widget.child!);
+            //context.navigateToPage(widget.child!);
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    widget.child!,
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(1, 0);
+                  const end = Offset.zero;
+                  const curve = Curves.elasticOut;
+
+                  final tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+              ),
+            );
           } else {
             //else
           }

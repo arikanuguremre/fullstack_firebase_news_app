@@ -80,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 30,
               ),
               GestureDetector(
-                onTap: _signUp,
+                onTap: () => _signUp(context),
                 child: Container(
                   width: double.infinity,
                   height: 45,
@@ -114,8 +114,24 @@ class _SignUpPageState extends State<SignUpPage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const LoginPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(1, 0);
+                            const end = Offset.zero;
+                            const curve = Curves.elasticOut;
+
+                            final tween = Tween(begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
                         ),
                       );
                     },
@@ -136,22 +152,71 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Future<void> _signUp() async {
+  void showSuccesSnacBar(String msg) {
+    ScaffoldMessenger.of(context)
+      ..removeCurrentMaterialBanner()
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green[800],
+          content: Text(
+            msg,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      );
+  }
+
+  void showWrongCredentialSnacBar(String msg) {
+    ScaffoldMessenger.of(context)
+      ..removeCurrentMaterialBanner()
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red[400],
+          content: Text(
+            msg,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      );
+  }
+
+  void _navigateToHome(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const HomeView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1, 0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          final tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _signUp(BuildContext context) async {
     String username = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signUpWithEmailAndPassword(email, password);
     if (user != null) {
+      showSuccesSnacBar('Registration Successful');
       print('User is successfully created');
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeView(),
-        ),
-      );
+      _navigateToHome(context);
     } else {
-      print('User is null');
+      showWrongCredentialSnacBar(
+        'Something went wrong!, try to change your credential info.',
+      );
     }
   }
 }
